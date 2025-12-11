@@ -18,13 +18,13 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.format_sql=true
 
 spring.security.user.name=admin
-spring.security.user.password=admin123
+spring.security.user.password=CHANGE_THIS_PASSWORD
 
 
 # ===============================
 # JWT Configuration
 # ===============================
-jwt.secret=YourSuperSecretKeyHere
+jwt.secret=CHANGE_THIS_TO_A_SECURE_SECRET_KEY
 jwt.expiration=3600000  # 1 hour in milliseconds
 
 # ===============================
