@@ -1,6 +1,5 @@
 package com.example.votingbank.service;
 
-import com.example.votingbank.config.JwtService;
 import com.example.votingbank.dto.AuthRequest;
 import com.example.votingbank.dto.AuthResponse;
 import com.example.votingbank.model.Roles;
@@ -11,13 +10,14 @@ import com.example.votingbank.util.HashUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final JwtService jwtService;
 
     @Override
     public AuthResponse login(AuthRequest request) {
@@ -29,7 +29,8 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        String token = jwtService.generateToken(user.getUsername());
+        // Return a simple token (user ID) for testing without JWT
+        String token = "simple-token-" + user.getId().toString();
         return new AuthResponse(token, user.getUsername(), user.getRole().getName());
     }
 
@@ -46,14 +47,15 @@ public class AuthServiceImpl implements AuthService {
         }
 
         Users user = new Users();
-        user.setUsername(request.getUsernameOrEmail()); // Assuming usernameOrEmail is username for register
-        user.setEmail(request.getUsernameOrEmail()); // Assuming same for simplicity
+        user.setUsername(request.getUsernameOrEmail());
+        user.setEmail(request.getUsernameOrEmail());
         user.setPasswordHash(HashUtil.sha256(request.getPassword()));
         user.setRole(userRole);
 
         userRepository.save(user);
 
-        String token = jwtService.generateToken(user.getUsername());
+        // Return a simple token (user ID) for testing without JWT
+        String token = "simple-token-" + user.getId().toString();
         return new AuthResponse(token, user.getUsername(), user.getRole().getName());
     }
 }

@@ -3,421 +3,557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VotingBank API Tester</title>
+    <title>VotingBank - Complete Testing UI</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        
+
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 30px;
             text-align: center;
         }
-        
+
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
         }
-        
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-        
+
         .content {
             padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
         }
-        
+
         .section {
-            margin-bottom: 30px;
-            padding: 20px;
             background: #f8f9fa;
             border-radius: 10px;
+            padding: 20px;
             border-left: 4px solid #667eea;
         }
-        
+
         .section h2 {
             color: #667eea;
             margin-bottom: 15px;
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
-        
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-        
+
         label {
             display: block;
             margin-bottom: 5px;
             color: #333;
             font-weight: 600;
+            font-size: 0.9em;
         }
-        
-        input, textarea {
+
+        input, textarea, select {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 14px;
             transition: border-color 0.3s;
         }
-        
-        input:focus, textarea:focus {
+
+        input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #667eea;
         }
-        
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 30px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            margin-right: 10px;
+            margin-right: 8px;
+            margin-top: 8px;
         }
-        
+
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        
+
         button:active {
             transform: translateY(0);
         }
-        
+
         .response {
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 12px;
+            padding: 12px;
             background: #fff;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid #e0e0e0;
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
+            display: none;
         }
-        
+
         .response pre {
             white-space: pre-wrap;
             word-wrap: break-word;
             font-family: 'Courier New', monospace;
-            font-size: 13px;
+            font-size: 12px;
             color: #333;
         }
-        
+
         .success {
             border-color: #4caf50;
             background: #e8f5e9;
         }
-        
+
         .error {
             border-color: #f44336;
             background: #ffebee;
         }
-        
-        .token-display {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            word-break: break-all;
-        }
-        
-        .token-display strong {
-            color: #856404;
-        }
-        
+
         .info-box {
             background: #e3f2fd;
             border-left: 4px solid #2196f3;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
+            grid-column: 1 / -1;
         }
-        
+
         .info-box h3 {
             color: #1976d2;
             margin-bottom: 10px;
         }
-        
-        .info-box ul {
-            margin-left: 20px;
+
+        .full-width {
+            grid-column: 1 / -1;
         }
-        
-        .info-box li {
-            margin-bottom: 5px;
-            color: #555;
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .small-input {
+            font-size: 12px;
+            padding: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🗳️ VotingBank API Tester</h1>
-            <p>Test your Spring Boot REST API endpoints</p>
+            <h1>🗳️ VotingBank Complete Testing UI</h1>
+            <p>Test all API endpoints without authentication</p>
         </div>
-        
+
         <div class="content">
             <div class="info-box">
-                <h3>📋 Quick Start Guide</h3>
-                <ul>
-                    <li><strong>Step 1:</strong> Register a new user account</li>
-                    <li><strong>Step 2:</strong> Login to get your JWT token</li>
-                    <li><strong>Step 3:</strong> Use the token to access protected endpoints</li>
-                    <li><strong>Note:</strong> Token is automatically saved and used for subsequent requests</li>
-                </ul>
+                <h3>📋 Testing Instructions</h3>
+                <p><strong>Note:</strong> Security is disabled for testing. All endpoints are accessible without authentication.</p>
+                <p><strong>Order:</strong> 1) Register User → 2) Create Election → 3) Add Candidates → 4) Cast Votes → 5) View Results</p>
             </div>
-            
-            <!-- Register Section -->
+
+            <!-- User Registration -->
             <div class="section">
-                <h2>📝 Register New User</h2>
+                <h2>👤 Register User</h2>
                 <div class="form-group">
-                    <label>Username or Email:</label>
-                    <input type="text" id="registerUsername" placeholder="Enter username or email">
+                    <label>Email:</label>
+                    <input type="email" id="regEmail" placeholder="user@example.com">
                 </div>
                 <div class="form-group">
                     <label>Password:</label>
-                    <input type="password" id="registerPassword" placeholder="Enter password">
+                    <input type="password" id="regPassword" placeholder="password123">
                 </div>
-                <button onclick="register()">Register</button>
-                <div id="registerResponse" class="response" style="display:none;"></div>
+                <button onclick="registerUser()">Register</button>
+                <div id="regResponse" class="response"></div>
             </div>
-            
-            <!-- Login Section -->
+
+            <!-- User Login -->
             <div class="section">
-                <h2>🔐 Login</h2>
+                <h2>🔐 Login User</h2>
                 <div class="form-group">
-                    <label>Username or Email:</label>
-                    <input type="text" id="loginUsername" placeholder="Enter username or email">
+                    <label>Email:</label>
+                    <input type="email" id="loginEmail" placeholder="user@example.com">
                 </div>
                 <div class="form-group">
                     <label>Password:</label>
-                    <input type="password" id="loginPassword" placeholder="Enter password">
+                    <input type="password" id="loginPassword" placeholder="password123">
                 </div>
-                <button onclick="login()">Login</button>
-                <div id="loginResponse" class="response" style="display:none;"></div>
-                <div id="tokenDisplay" class="token-display" style="display:none;">
-                    <strong>🎫 Your JWT Token:</strong>
-                    <div id="tokenValue" style="margin-top: 10px; font-family: monospace; font-size: 12px;"></div>
+                <button onclick="loginUser()">Login</button>
+                <div id="loginResponse" class="response"></div>
+            </div>
+
+            <!-- Get All Users -->
+            <div class="section">
+                <h2>👥 Get All Users</h2>
+                <button onclick="getAllUsers()">Get Users</button>
+                <div id="usersResponse" class="response"></div>
+            </div>
+
+            <!-- Create Election -->
+            <div class="section full-width">
+                <h2>🗳️ Create Election</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Title:</label>
+                        <input type="text" id="electionTitle" placeholder="Student Council Election 2024">
+                    </div>
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <input type="text" id="electionDesc" placeholder="Annual student council voting">
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date:</label>
+                        <input type="datetime-local" id="electionStart">
+                    </div>
+                    <div class="form-group">
+                        <label>End Date:</label>
+                        <input type="datetime-local" id="electionEnd">
+                    </div>
                 </div>
+                <button onclick="createElection()">Create Election</button>
+                <div id="createElectionResponse" class="response"></div>
             </div>
-            
-            <!-- Get Elections Section -->
+
+            <!-- Get All Elections -->
             <div class="section">
-                <h2>🗳️ Get All Elections</h2>
-                <button onclick="getElections()">Get Elections</button>
-                <div id="electionsResponse" class="response" style="display:none;"></div>
+                <h2>📋 Get All Elections</h2>
+                <button onclick="getAllElections()">Get Elections</button>
+                <button class="btn-secondary" onclick="refreshElectionsList()">Refresh List</button>
+                <div id="electionsResponse" class="response"></div>
             </div>
-            
-            <!-- Get Candidates Section -->
+
+            <!-- Get Election by ID -->
             <div class="section">
-                <h2>👥 Get All Candidates</h2>
-                <button onclick="getCandidates()">Get Candidates</button>
-                <div id="candidatesResponse" class="response" style="display:none;"></div>
+                <h2>🔍 Get Election by ID</h2>
+                <div class="form-group">
+                    <label>Election ID:</label>
+                    <input type="text" id="getElectionId" placeholder="Enter election UUID" class="small-input">
+                </div>
+                <button onclick="getElectionById()">Get Election</button>
+                <div id="getElectionResponse" class="response"></div>
             </div>
-            
-            <!-- Get User Profile Section -->
+
+            <!-- Close Election -->
             <div class="section">
-                <h2>👤 Get My Profile</h2>
-                <button onclick="getProfile()">Get Profile</button>
-                <div id="profileResponse" class="response" style="display:none;"></div>
+                <h2>🔒 Close Election</h2>
+                <div class="form-group">
+                    <label>Election ID:</label>
+                    <input type="text" id="closeElectionId" placeholder="Enter election UUID" class="small-input">
+                </div>
+                <button class="btn-danger" onclick="closeElection()">Close Election</button>
+                <div id="closeElectionResponse" class="response"></div>
+            </div>
+
+            <!-- Create Candidate -->
+            <div class="section full-width">
+                <h2>🎯 Create Candidate</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Election ID:</label>
+                        <input type="text" id="candidateElectionId" placeholder="Election UUID" class="small-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Candidate Name:</label>
+                        <input type="text" id="candidateName" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <input type="text" id="candidateDesc" placeholder="President candidate">
+                    </div>
+                </div>
+                <button onclick="createCandidate()">Create Candidate</button>
+                <div id="createCandidateResponse" class="response"></div>
+            </div>
+
+            <!-- Get Candidates by Election -->
+            <div class="section">
+                <h2>👥 Get Candidates</h2>
+                <div class="form-group">
+                    <label>Election ID:</label>
+                    <input type="text" id="getCandidatesElectionId" placeholder="Enter election UUID" class="small-input">
+                </div>
+                <button onclick="getCandidatesByElection()">Get Candidates</button>
+                <div id="getCandidatesResponse" class="response"></div>
+            </div>
+
+            <!-- Cast Vote -->
+            <div class="section">
+                <h2>✅ Cast Vote</h2>
+                <div class="form-group">
+                    <label>Election ID:</label>
+                    <input type="text" id="voteElectionId" placeholder="Election UUID" class="small-input">
+                </div>
+                <div class="form-group">
+                    <label>Candidate ID:</label>
+                    <input type="text" id="voteCandidateId" placeholder="Candidate UUID" class="small-input">
+                </div>
+                <div class="form-group">
+                    <label>User ID:</label>
+                    <input type="text" id="voteUserId" placeholder="User UUID" class="small-input">
+                </div>
+                <button class="btn-success" onclick="castVote()">Cast Vote</button>
+                <div id="castVoteResponse" class="response"></div>
+            </div>
+
+            <!-- Get Votes by Election -->
+            <div class="section">
+                <h2>📊 Get Votes</h2>
+                <div class="form-group">
+                    <label>Election ID:</label>
+                    <input type="text" id="getVotesElectionId" placeholder="Enter election UUID" class="small-input">
+                </div>
+                <button onclick="getVotesByElection()">Get Votes</button>
+                <div id="getVotesResponse" class="response"></div>
+            </div>
+
+            <!-- Get User Profile -->
+            <div class="section">
+                <h2>👤 Get User Profile</h2>
+                <div class="form-group">
+                    <label>User ID:</label>
+                    <input type="text" id="profileUserId" placeholder="Enter user UUID" class="small-input">
+                </div>
+                <button onclick="getUserProfile()">Get Profile</button>
+                <div id="profileResponse" class="response"></div>
             </div>
         </div>
     </div>
 
     <script>
-        let jwtToken = localStorage.getItem('jwtToken') || '';
-        
-        // Display token if exists
-        if (jwtToken) {
-            document.getElementById('tokenDisplay').style.display = 'block';
-            document.getElementById('tokenValue').textContent = jwtToken;
-        }
-        
-        async function register() {
-            const username = document.getElementById('registerUsername').value;
-            const password = document.getElementById('registerPassword').value;
-            
-            if (!username || !password) {
-                showResponse('registerResponse', 'Please fill in all fields', 'error');
-                return;
-            }
-            
-            try {
-                const response = await fetch('http://localhost:8081/api/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        usernameOrEmail: username,
-                        password: password
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    jwtToken = data.token;
-                    localStorage.setItem('jwtToken', jwtToken);
-                    document.getElementById('tokenDisplay').style.display = 'block';
-                    document.getElementById('tokenValue').textContent = jwtToken;
-                    showResponse('registerResponse', JSON.stringify(data, null, 2), 'success');
-                } else {
-                    showResponse('registerResponse', JSON.stringify(data, null, 2), 'error');
-                }
-            } catch (error) {
-                showResponse('registerResponse', 'Error: ' + error.message, 'error');
-            }
-        }
-        
-        async function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!username || !password) {
-                showResponse('loginResponse', 'Please fill in all fields', 'error');
-                return;
-            }
-            
-            try {
-                const response = await fetch('http://localhost:8081/api/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        usernameOrEmail: username,
-                        password: password
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    jwtToken = data.token;
-                    localStorage.setItem('jwtToken', jwtToken);
-                    document.getElementById('tokenDisplay').style.display = 'block';
-                    document.getElementById('tokenValue').textContent = jwtToken;
-                    showResponse('loginResponse', JSON.stringify(data, null, 2), 'success');
-                } else {
-                    showResponse('loginResponse', JSON.stringify(data, null, 2), 'error');
-                }
-            } catch (error) {
-                showResponse('loginResponse', 'Error: ' + error.message, 'error');
-            }
-        }
-        
-        async function getElections() {
-            if (!jwtToken) {
-                showResponse('electionsResponse', 'Please login first to get a JWT token', 'error');
-                return;
-            }
-            
-            try {
-                const response = await fetch('http://localhost:8081/api/elections', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + jwtToken,
-                        'Content-Type': 'application/json',
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showResponse('electionsResponse', JSON.stringify(data, null, 2), 'success');
-                } else {
-                    showResponse('electionsResponse', JSON.stringify(data, null, 2), 'error');
-                }
-            } catch (error) {
-                showResponse('electionsResponse', 'Error: ' + error.message, 'error');
-            }
-        }
-        
-        async function getCandidates() {
-            if (!jwtToken) {
-                showResponse('candidatesResponse', 'Please login first to get a JWT token', 'error');
-                return;
-            }
-            
-            try {
-                const response = await fetch('http://localhost:8081/api/candidates', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + jwtToken,
-                        'Content-Type': 'application/json',
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showResponse('candidatesResponse', JSON.stringify(data, null, 2), 'success');
-                } else {
-                    showResponse('candidatesResponse', JSON.stringify(data, null, 2), 'error');
-                }
-            } catch (error) {
-                showResponse('candidatesResponse', 'Error: ' + error.message, 'error');
-            }
-        }
-        
-        async function getProfile() {
-            if (!jwtToken) {
-                showResponse('profileResponse', 'Please login first to get a JWT token', 'error');
-                return;
-            }
-            
-            try {
-                const response = await fetch('http://localhost:8081/api/users/me', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + jwtToken,
-                        'Content-Type': 'application/json',
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showResponse('profileResponse', JSON.stringify(data, null, 2), 'success');
-                } else {
-                    showResponse('profileResponse', JSON.stringify(data, null, 2), 'error');
-                }
-            } catch (error) {
-                showResponse('profileResponse', 'Error: ' + error.message, 'error');
-            }
-        }
-        
+        const API_BASE = 'http://localhost:8081/api';
+
         function showResponse(elementId, message, type) {
             const element = document.getElementById(elementId);
             element.style.display = 'block';
             element.className = 'response ' + type;
             element.innerHTML = '<pre>' + message + '</pre>';
         }
+
+        async function registerUser() {
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({usernameOrEmail: email, password: password})
+                });
+                const data = await response.json();
+                showResponse('regResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('regResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function loginUser() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({usernameOrEmail: email, password: password})
+                });
+                const data = await response.json();
+                showResponse('loginResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('loginResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function getAllUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/users`);
+                const data = await response.json();
+                showResponse('usersResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('usersResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function createElection() {
+            const title = document.getElementById('electionTitle').value;
+            const description = document.getElementById('electionDesc').value;
+            const startAt = document.getElementById('electionStart').value;
+            const endAt = document.getElementById('electionEnd').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/elections`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        title: title,
+                        description: description,
+                        startAt: new Date(startAt).toISOString(),
+                        endAt: new Date(endAt).toISOString()
+                    })
+                });
+                const data = await response.json();
+                showResponse('createElectionResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('createElectionResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function getAllElections() {
+            try {
+                const response = await fetch(`${API_BASE}/elections`);
+                const data = await response.json();
+                showResponse('electionsResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('electionsResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function refreshElectionsList() {
+            getAllElections();
+        }
+
+        async function getElectionById() {
+            const id = document.getElementById('getElectionId').value;
+            try {
+                const response = await fetch(`${API_BASE}/elections/${id}`);
+                const data = await response.json();
+                showResponse('getElectionResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('getElectionResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function closeElection() {
+            const id = document.getElementById('closeElectionId').value;
+            try {
+                const response = await fetch(`${API_BASE}/elections/${id}/close`, {method: 'PUT'});
+                showResponse('closeElectionResponse', response.ok ? 'Election closed successfully' : 'Failed to close election', response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('closeElectionResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function createCandidate() {
+            const electionId = document.getElementById('candidateElectionId').value;
+            const name = document.getElementById('candidateName').value;
+            const description = document.getElementById('candidateDesc').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/candidates/${electionId}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name: name, description: description})
+                });
+                const data = await response.json();
+                showResponse('createCandidateResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('createCandidateResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function getCandidatesByElection() {
+            const electionId = document.getElementById('getCandidatesElectionId').value;
+            try {
+                const response = await fetch(`${API_BASE}/candidates/election/${electionId}`);
+                const data = await response.json();
+                showResponse('getCandidatesResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('getCandidatesResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function castVote() {
+            const electionId = document.getElementById('voteElectionId').value;
+            const candidateId = document.getElementById('voteCandidateId').value;
+            const userId = document.getElementById('voteUserId').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/votes`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        electionId: electionId,
+                        candidateId: candidateId,
+                        userId: userId
+                    })
+                });
+                const data = await response.json();
+                showResponse('castVoteResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('castVoteResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function getVotesByElection() {
+            const electionId = document.getElementById('getVotesElectionId').value;
+            try {
+                const response = await fetch(`${API_BASE}/votes/election/${electionId}`);
+                const data = await response.json();
+                showResponse('getVotesResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('getVotesResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function getUserProfile() {
+            const userId = document.getElementById('profileUserId').value;
+            try {
+                const response = await fetch(`${API_BASE}/users/${userId}/profile`);
+                const data = await response.json();
+                showResponse('profileResponse', JSON.stringify(data, null, 2), response.ok ? 'success' : 'error');
+            } catch (error) {
+                showResponse('profileResponse', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        // Set default dates
+        window.onload = function() {
+            const now = new Date();
+            const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+            const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            
+            document.getElementById('electionStart').value = tomorrow.toISOString().slice(0, 16);
+            document.getElementById('electionEnd').value = nextWeek.toISOString().slice(0, 16);
+        };
     </script>
 </body>
 </html>
