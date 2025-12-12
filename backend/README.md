@@ -9,8 +9,12 @@ VotingBank is a secure voting system built with Spring Boot. The application pro
 - Java 17 or higher
 - Maven 3.6+
 - Git
+- PostgreSQL (optional - for production use)
+- pgAdmin (optional - for database management)
 
 ### Running the Application
+
+#### Option 1: Development Mode (H2 Database - Default)
 
 1. **Clone the repository:**
    ```bash
@@ -24,8 +28,51 @@ VotingBank is a secure voting system built with Spring Boot. The application pro
    ```
 
 3. **Access the application:**
-   - Open your browser and navigate to: `http://localhost:8081`
-   - The application runs on port 8081
+   - Web UI: http://localhost:8081
+   - H2 Console: http://localhost:8081/h2-console
+     - JDBC URL: `jdbc:h2:mem:votingbank`
+     - Username: `sa`
+     - Password: (leave empty)
+
+**Note**: H2 is an in-memory database. All data is lost when you stop the application.
+
+#### Option 2: Production Mode (PostgreSQL Database)
+
+1. **Set up PostgreSQL**:
+   - Follow the detailed guide in [DATABASE_SETUP.md](DATABASE_SETUP.md)
+   - Create database `votingbank_db` using pgAdmin
+   - Copy `application-prod.properties.example` to `application-prod.properties`
+   - Update your PostgreSQL password in `application-prod.properties`
+
+2. **Switch to production profile**:
+   
+   Edit `src/main/resources/application.properties`:
+   ```properties
+   spring.profiles.active=prod
+   ```
+
+3. **Start the application:**
+   ```bash
+   mvn spring-boot:run
+   ```
+
+4. **Access the application:**
+   - Web UI: http://localhost:8081
+   - View database using pgAdmin
+
+**Note**: PostgreSQL persists data across application restarts.
+
+#### Quick Profile Switch
+
+You can also switch profiles via command line without editing files:
+
+```bash
+# Development (H2)
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+# Production (PostgreSQL)
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
+```
 
 ## How to Use the Application
 
@@ -198,12 +245,28 @@ curl -X PUT http://localhost:8081/api/users/me/profile \
 - ✅ **Candidate Registration**: Add multiple candidates per election
 - ✅ **H2 In-Memory Database**: Data resets on application restart (perfect for testing)
 
-## Database
+## Database Configuration
 
-The application uses an H2 in-memory database that:
-- Automatically creates tables on startup
-- Resets data when the application restarts
-- Initializes with USER and ADMIN roles
+### Development Profile (H2 - Default)
+- **Type**: In-memory database
+- **URL**: `jdbc:h2:mem:votingbank`
+- **Console**: http://localhost:8081/h2-console
+- **Data Persistence**: No (resets on restart)
+- **Use Case**: Testing and development
+- **Setup**: No configuration needed
+
+### Production Profile (PostgreSQL)
+- **Type**: Persistent database
+- **URL**: `jdbc:postgresql://localhost:5432/votingbank_db`
+- **Management**: pgAdmin
+- **Data Persistence**: Yes (survives restarts)
+- **Use Case**: Production deployment
+- **Setup**: See [DATABASE_SETUP.md](DATABASE_SETUP.md)
+
+Both profiles automatically:
+- Create tables on startup
+- Initialize USER and ADMIN roles
+- Set up all necessary relationships
 
 ## Configuration
 

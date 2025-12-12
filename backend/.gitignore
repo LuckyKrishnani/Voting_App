@@ -36,5 +36,5 @@ build/
 *.log
 logs/
 
-### Application Properties ###
-application.properties
+### Application Properties with Sensitive Data ###
+application-prod.properties
