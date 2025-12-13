@@ -19,8 +19,16 @@ public class CandidateController {
     private final CandidateService candidateService;
 
     @PostMapping("/{electionId}")
-    public ResponseEntity<Candidate> createCandidate(@PathVariable UUID electionId, @RequestBody CreateCandidateRequest request) {
-        return ResponseEntity.ok(candidateService.createCandidate(electionId, request));
+    public ResponseEntity<CandidateResponse> createCandidate(@PathVariable UUID electionId, @RequestBody CreateCandidateRequest request) {
+        Candidate candidate = candidateService.createCandidate(electionId, request);
+        CandidateResponse response = new CandidateResponse(
+            candidate.getId(),
+            candidate.getName(),
+            candidate.getDescription(),
+            candidate.getMetadata(),
+            electionId
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/election/{electionId}")
@@ -29,7 +37,15 @@ public class CandidateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Candidate> getCandidate(@PathVariable UUID id) {
-        return ResponseEntity.ok(candidateService.getCandidateById(id));
+    public ResponseEntity<CandidateResponse> getCandidate(@PathVariable UUID id) {
+        Candidate candidate = candidateService.getCandidateById(id);
+        CandidateResponse response = new CandidateResponse(
+            candidate.getId(),
+            candidate.getName(),
+            candidate.getDescription(),
+            candidate.getMetadata(),
+            candidate.getElection().getId()
+        );
+        return ResponseEntity.ok(response);
     }
 }
